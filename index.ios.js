@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { NavigatorIOS, AppRegistry, StyleSheet, Text } from 'react-native';
 
-var SearchPage = require('./SearchPage')
+import SearchPage from './SearchPage'
 
 
 var styles = StyleSheet.create({
@@ -26,7 +26,7 @@ class PropertyFinderApp extends Component {
         initialRoute={{
           title: 'Property Finder',
           component: SearchPage,
-        }}/>
+      }}/>
     );
   }
 }
