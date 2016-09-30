@@ -5,6 +5,8 @@ import { NavigatorIOS, AppRegistry, StyleSheet, Text, TextInput, View,
   TouchableHighlight, ActivityIndicator, Image }
   from 'react-native';
 
+var SearchResults = require('./SearchResults');
+
   var styles = StyleSheet.create({
     description: {
       marginBottom: 20,
@@ -102,9 +104,13 @@ import { NavigatorIOS, AppRegistry, StyleSheet, Text, TextInput, View,
     }
 
     _handleResponse(response) {
-      this.setState({ isLoading: false , message: ''});
+      this.setState({ isLoading: false , message: '' });
       if (response.application_response_code.substr(0, 1) === '1') {
-        console.log('Properties found: ' + response.listings.length);
+        this.props.navigator.push({
+          title: 'Results',
+          component: SearchResults,
+          passProps: {listings: response.listings}
+        });
       } else {
         this.setState({ message: 'Location not recognized, please try again.'});
       }
@@ -116,7 +122,7 @@ import { NavigatorIOS, AppRegistry, StyleSheet, Text, TextInput, View,
     }
 
     render() {
-      var spinner = this.state.isLoading?
+      var spinner = this.state.isLoading ?
         ( <ActivityIndicator
             size='large'/> ) :
         ( <View/>);
