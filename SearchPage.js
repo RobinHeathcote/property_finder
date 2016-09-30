@@ -121,6 +121,21 @@ var SearchResults = require('./SearchResults');
       this._executeQuery(query)
     }
 
+    onLocationPressed() {
+      navigator.geolocation.getCurrentPosition(
+        location => {
+          var search = location.coords.lattitude + ',' + location.coords.longitude;
+          this.setState({ searchString: search });
+          var query = urlForQueryAndPage('centre_point', search, 1);
+          this._executeQuery(query);
+        },
+        error => {
+          this.setState({
+            message: 'There was a problem with obtaining your location: ' + error
+          });
+        });
+    }
+
     render() {
       var spinner = this.state.isLoading ?
         ( <ActivityIndicator
@@ -149,6 +164,7 @@ var SearchResults = require('./SearchResults');
           </TouchableHighlight>
         </View>
         <TouchableHighlight style={styles.button}
+            onPress={this.onLocationPressed.bind(this)}
             underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Location</Text>
         </TouchableHighlight>
